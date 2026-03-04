@@ -131,6 +131,17 @@ The following changes were made on top of the SourceForge codebase to fix compil
 - **Files:** 6 module `libinit.c` files
 - Fixed `ModuleInfo` structure declarations that used `function[1]` (single-element array) to properly size the flexible array member for each module's function count. Prevents out-of-bounds access.
 
+#### Anti-Aliased Font Rendering Fix (SourceForge #6)
+- **Files:** `Library/image_class.c`, `Library/listview_class.c`, `Modules/configopus/config_environment_output.c`
+- Text and checkmark rendering used JAM1 draw mode without clearing the background first. With legacy bitmap fonts this was fine, but with anti-aliased fonts (standard on AmigaOS 4), each redraw blends with existing pixels instead of replacing them, causing text and checkmarks to become progressively bolder with each toggle or refresh.
+- Fixed checkmark rendering (`IM_CHECK`/`IM_CROSS`) by clearing the background rectangle before drawing lines.
+- Fixed listview title rendering by switching from JAM1 to JAM2 with proper background pen.
+- Fixed config preview instruction text by switching from JAM1 to JAM2 with proper background pen.
+
+#### Defensive Lock Validation for USB/FAT32 (SourceForge #63 mitigation)
+- **File:** `Program/function_runprog.c`
+- On AmigaOS 4, double-clicking files on FAT32 USB drives could cause a DSI crash in `dos.library` during `UnLock()`. The underlying issue is in the OS4 FAT filesystem handler which can invalidate locks unexpectedly. Added a defensive check on OS4: before calling `UnLock()`, `NameFromLock()` is used to verify the lock is still valid. If the lock has been invalidated (`ERROR_INVALID_LOCK`), the `UnLock()` call is skipped, preventing the crash.
+
 #### 255-Character Filename Support
 - **Files:** `Include/dopus/common.h`, `Program/environment.c`, `Program/function_readdir.c`, `Modules/configopus/config_environment.c`
 - On AmigaOS 4, the modern DOS API (`ExamineData->Name`) supports filenames up to 255 characters, but DOpus5 clamped filenames to 107 characters — matching the legacy `FileInfoBlock.fib_FileName[108]` field. The internal data structures already supported longer names (`DirEntry.de_NameLen` is `unsigned char`, entry allocation is dynamic), so only the artificial clamps needed raising.

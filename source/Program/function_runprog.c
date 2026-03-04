@@ -201,7 +201,21 @@ DOPUS_FUNC(function_runprog)
 
 	// Restore directory
 	CurrentDir(old);
+
+#ifdef __amigaos4__
+	// Defensive: verify lock is still valid before unlocking.
+	// On FAT32 USB devices, the filesystem handler may invalidate locks
+	// if the device is removed or the handler encounters an error.
+	// Calling UnLock() on a stale lock causes a DSI crash in dos.library.
+	// NameFromLock() will fail safely if the lock is invalid.
+	{
+		char test_buf[4];
+		if (NameFromLock(lock, test_buf, sizeof(test_buf)) || IoErr() != ERROR_INVALID_LOCK)
+			UnLock(lock);
+	}
+#else
 	UnLock(lock);
+#endif
 
 	return 1;
 }

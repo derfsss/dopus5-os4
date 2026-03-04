@@ -1225,7 +1225,8 @@ void listview_render(
 
 					// Draw title
 					SetAPen(rp,pens[TEXTPEN]);
-					SetDrMd(rp,JAM1);
+					SetBPen(rp,pens[BACKGROUNDPEN]);
+					SetDrMd(rp,JAM2);
 					Move(rp,x,y);
 					Text(rp,data->title,len);
 
