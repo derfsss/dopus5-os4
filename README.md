@@ -12,6 +12,8 @@ The original code was released under the **AROS Public License (APL) version 1.1
 
 The SourceForge codebase already contained `#ifdef __amigaos4__` support for AmigaOS 4, contributed by the open-source team. However, it did not compile or run cleanly on modern AmigaOS 4.1 systems. This fork contains fixes to get it building and running correctly.
 
+The bug fixes and modernisation work in this fork were developed with the assistance of [Claude](https://claude.ai) (Anthropic) via [Claude Code](https://claude.com/claude-code).
+
 ## License
 
 AROS Public License (APL) version 1.1 — see `COPYING`.
