@@ -131,6 +131,14 @@ The following changes were made on top of the SourceForge codebase to fix compil
 - **Files:** 6 module `libinit.c` files
 - Fixed `ModuleInfo` structure declarations that used `function[1]` (single-element array) to properly size the flexible array member for each module's function count. Prevents out-of-bounds access.
 
+#### 255-Character Filename Support
+- **Files:** `Include/dopus/common.h`, `Program/environment.c`, `Program/function_readdir.c`, `Modules/configopus/config_environment.c`
+- On AmigaOS 4, the modern DOS API (`ExamineData->Name`) supports filenames up to 255 characters, but DOpus5 clamped filenames to 107 characters — matching the legacy `FileInfoBlock.fib_FileName[108]` field. The internal data structures already supported longer names (`DirEntry.de_NameLen` is `unsigned char`, entry allocation is dynamic), so only the artificial clamps needed raising.
+- Added `MAX_FILENAME_LEN` constant (255 on OS4, 107 on other platforms) in `common.h`.
+- Raised the filename length clamp in `environment.c` and the config UI bounds in `config_environment.c` from 107 to `MAX_FILENAME_LEN`.
+- In the OS4 directory reading path (`function_readdir.c`), bypassed the `FileInfoBlock` name truncation by calling `create_file_entry()` directly with `exdata->Name` instead of going through `create_file_entry_fib()` which reads the truncated 107-char FIB field.
+- Replaced 7 hardcoded `108` buffer size literals across `function_filechange.c`, `backdrop_leftout.c`, and `ftp_lister.c` with `sizeof(fib->fib_FileName)` for self-documentation.
+
 ### Modernisation (BltBitMapTags)
 
 Replaced 6 legacy `BltBitMapRastPort` calls with `BltBitMapTags` under `#ifdef __amigaos4__` guards. All 6 used minterm `0xc0` (simple copy). The legacy calls are preserved in `#else` branches for other platforms.

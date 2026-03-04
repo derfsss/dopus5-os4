@@ -185,7 +185,7 @@ switch	(type)
 
 fib->fib_DirEntryType = etype;
 
-stccpy( fib->fib_FileName, name, 108 );
+stccpy( fib->fib_FileName, name, sizeof(fib->fib_FileName) );
 
 if	(comment)
 	stccpy( fib->fib_Comment, comment, COMMENTLEN );

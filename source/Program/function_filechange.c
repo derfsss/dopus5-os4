@@ -194,7 +194,7 @@ FileChange *function_filechange_loadfile(
 	if (flags&FFLF_DEFERRED)
 	{
 		// Initialise dummy fib
-		strncpy(fib->fib_FileName,name,108);
+		strncpy(fib->fib_FileName,name,sizeof(fib->fib_FileName));
 		fib->fib_Comment[0]=0;
 
 		// Add change
@@ -277,7 +277,7 @@ FileChange *function_filechange_delfile(
 	change->node.ln_Type=FCTYPE_DEL;
 
 	// Copy name
-	strncpy(change->fib->fib_FileName,name,108);
+	strncpy(change->fib->fib_FileName,name,sizeof(change->fib->fib_FileName));
 	change->node.ln_Name=change->fib->fib_FileName;
 
 	// Add to start or end of list
@@ -308,7 +308,7 @@ FileChange *function_filechange_modify(
 	if (!(change=alloc_filechange(handle->memory,FALSE))) return NULL;
 
 	// Copy name
-	strncpy(change->fib->fib_FileName,name,108);
+	strncpy(change->fib->fib_FileName,name,sizeof(change->fib->fib_FileName));
 	change->node.ln_Name=change->fib->fib_FileName;
 
 	// Set type
@@ -402,7 +402,7 @@ FileChange *function_filechange_rename(
 		return NULL;
 
 	// Copy name
-	strncpy(change->fib->fib_FileName,name,108);
+	strncpy(change->fib->fib_FileName,name,sizeof(change->fib->fib_FileName));
 
 	// Set type
 	change->node.ln_Type=FCTYPE_RENAME;

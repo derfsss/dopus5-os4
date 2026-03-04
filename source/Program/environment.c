@@ -136,8 +136,8 @@ BOOL environment_open(Cfg_Environment *env,char *name,BOOL first,APTR prog)
 		if (GUI->def_filename_length<FILENAME_LEN)
 			GUI->def_filename_length=FILENAME_LEN;
 		else
-		if (GUI->def_filename_length>107)
-			GUI->def_filename_length=107;
+		if (GUI->def_filename_length>MAX_FILENAME_LEN)
+			GUI->def_filename_length=MAX_FILENAME_LEN;
 	}
 
 	// Successful?

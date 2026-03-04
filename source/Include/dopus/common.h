@@ -29,6 +29,13 @@
 #define MutablePathPart(p) PathPart(p)
 #endif
 
+/* Maximum filename length: OS4 supports 255 via ExamineData, legacy platforms use FIB limit of 107 */
+#ifdef __amigaos4__
+#define MAX_FILENAME_LEN	255
+#else
+#define MAX_FILENAME_LEN	107
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
