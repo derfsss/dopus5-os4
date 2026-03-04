@@ -1,0 +1,164 @@
+## version $VER: read.catalog 56.0 (08.07.97) © Marcin Orîowski <carlos@wfmh.man.szczecin.pl>
+## codeset 5
+## language polski
+;
+MSG_READING_FILE
+Wczytujë plik "%s"...
+; Reading file '%s'...
+;
+MSG_CANT_OPEN_FILE
+Nie mogë otworzyê pliku "%s"!°
+; Unable to open file '%s'!
+;
+MSG_FILE_TITLE
+%s  %s  %ld linii, %ld bajtów  tryb=%s, tab=%ld
+; %s  %s  %ld lines, %ld bytes   mode=%s, tab=%ld
+;
+MSG_MENU_FILE
+Plik
+; File
+;
+MSG_MENU_NEXT
+Nastëpny
+; Next
+;
+MSG_MENU_SEARCH
+Szukaj...
+; Search...
+;
+MSG_MENU_REPEAT
+Znajdú nastëpny
+; Repeat Search  
+;
+MSG_MENU_PRINT
+Wydrukuj...
+; Print...
+;
+MSG_MENU_QUIT
+Skoïcz
+; Quit
+;
+MSG_MENU_SETTINGS
+Ustawienia
+; Settings
+;
+MSG_MENU_TAB
+Szerokoôê tabulatora
+; Tab Size
+;
+MSG_MENU_SAVE
+Zapisz
+; Save Settings
+;
+MSG_ENTER_SEARCH_STRING
+Wpisz tekst który chcesz odszukaê
+; Enter text to search for.
+;
+MSG_SEARCH_NO_CASE
+_DUÛE = maîe
+; _Ignore Case
+;
+MSG_SEARCH_WILD
+_Znaki zastëpcze
+; _Wildcards
+;
+MSG_SEARCH_ONLYWORD
+Tylk_o caîe sîowa
+; _Only Words
+;
+MSG_SEARCH_REVERSE
+Szukaj _wstecz
+; _Reverse Search
+;
+MSG_OK_BUTTON
+Ok
+; OK
+;
+MSG_CANCEL_BUTTON
+Poniechaj
+; Cancel
+;
+MSG_STRING_NOT_FOUND
+Sekwencja nie znaleziona
+; String not found.
+;
+MSG_READ_DESCRIPTION
+Wyôwietla pliki tekstowe
+; Read text files
+;
+MSG_MENU_MODE
+Pokaû jako...
+; Mode
+;
+MSG_MENU_MODE_NORMAL
+Tekst
+; Normal
+;
+MSG_MENU_MODE_ANSI
+ANSI
+; ANSI
+;
+MSG_MENU_MODE_HEX
+Hex
+; Hex
+;
+MSG_MENU_USE_SCREEN
+Uûyj wîasnego ekranu
+; Use Screen
+;
+MSG_MENU_SCREEN_MODE
+Tryb wyôwietlania...
+; Pick Screen Mode...
+;
+MSG_MENU_SELECT_FONT
+Czcionka...
+; Pick Font...
+;
+MSG_SCREEN_TITLE
+Directory Opus · Przeglâdarka tekstu
+; Directory Opus Text Viewer
+;
+MSG_MENU_SAVE_AS
+Zapisz jako...
+; Save As...
+;
+MSG_ENTER_FILENAME
+Podaj nazwë pliku
+; Enter Filename
+;
+MSG_IO_ERROR
+Bîâd wy/we
+; IO Error
+;
+MSG_ERROR_CODE
+Bîâd DOS-u %ld
+; DOS error %ld
+;
+MSG_MENU_TO_EDITOR
+Wywoîaj edytor...
+; To Editor...
+;
+MSG_MENU_SELECT_EDITOR
+Wybierz edytor...
+; Pick Editor...
+;
+MSG_OK_CANCEL_BUTTON
+Ok|Poniechaj
+; OK|Cancel
+;
+MSG_SELECT_EDITOR
+Podaj funkcjë wywoîujâcâ edytor tekstu
+; Enter function to call text editor
+;
+MSG_READING_FILE_TITLE
+Odczytujë plik...
+; Reading file...
+;
+MSG_COUNTING_LINES
+Liczë linie...
+; Counting lines...
+;
+MSG_CLOSE
+Close
+; Close
+;

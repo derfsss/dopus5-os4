@@ -1,0 +1,59 @@
+include makefile.objs
+
+SHELL:= sh
+NEWDATE  := $(shell date +%d.%m.%Y)
+
+NAME := DirectoryOpus
+DESTDIR := ../bin.os3
+TARGET   := $(DESTDIR)/$(NAME)
+
+# Enter debug=no on "Make" command line to disable debug output.
+ifeq ($(debug), no)
+DEBUG := 
+STRIP := m68k-amigaos-strip --remove-section=.comment $(TARGET)
+else
+DEBUG := -DDEBUG
+STRIP := 
+endif
+
+OPTIMIZE := -O2
+DEBUGSYM := 
+OPTIONS  := -m68020-60 -D__amigaos3__ -D__USE_SYSBASE -DUSE_64BIT -DCOMPDATE=$(NEWDATE)
+INCLUDES := -I../ -I../Include
+LDFLAGS  := -noixemul -specs _gcc.spec -stackswap
+#WARNINGS := -Wall
+CC       := m68k-amigaos-gcc
+CFLAGS   := $(OPTIONS) $(DEBUG) $(DEBUGSYM) $(OPTIMIZE) -noixemul
+LIBS     := -lamiga -ldebug
+
+REMOVE = rm -f
+MAKEDIR := mkdir -p
+
+OBJS = $(COMMON_OBJS) amiga.o 68k_asm_a4_a5.o
+
+all : $(TARGET)
+
+$(TARGET): $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
+	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
+	@$(STRIP)
+
+68k_asm_a5_a6.o : 68k_asm_a5_a6.c
+	$(CC) -c $^ -o $@
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) $(INCLUDES) $(WARNINGS) -o $@
+
+.PHONY depend: Makefile.dep
+Makefile.dep : $(OBJS:.o=.c) $(COMMON_OBJS:.o=.c)
+	@$(CC) -MM $(CFLAGS) $(INCLUDES) $(OBJS:.o=.c) $(COMMON_OBJS:.o=.c) >Makefile.dep
+
+.PHONY clean:
+clean:
+	@$(REMOVE) *.o
+
+.PHONY cleanall:
+cleanall : clean
+	@$(REMOVE) $(TARGET) $(TARGET).map $(TARGET).s
+

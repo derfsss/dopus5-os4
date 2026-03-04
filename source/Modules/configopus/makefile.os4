@@ -1,0 +1,58 @@
+include makefile.objs
+
+SHELL:= sh
+NEWDATE  := $(shell date +%d.%m.%Y)
+
+# NAME is assigned in makefile.objs
+DESTDIR  := ../../bin.os4
+TARGET   := $(DESTDIR)/$(NAME)
+
+# Enter debug=no on "Make" command line to disable debuging.
+ifeq ($(debug), no)
+DEBUG := 
+STRIP := ppc-amigaos-strip -R=.comment $(TARGET)
+else
+DEBUG := -DDEBUG
+STRIP := 
+endif
+
+OPTIMIZE := -O2
+#C_LIB :=  -mcrt=clib2
+C_LIB :=  -mcrt=newlib
+DEBUGSYM := -gstabs 
+OPTIONS  := $(C_LIB) -D__USE_INLINE__ -D__USE_OLD_TIMEVAL__ -D__OBSOLETE_MEMHANDLER_FLAGS__ -DUSE_DRAWICONSTATE -DCOMPDATE=$(NEWDATE)
+INCLUDES := -I../../Include -Iinit -Iinit/../ -I../../
+LDFLAGS  := $(C_LIB) -nostartfiles
+WARNINGS := -Wall -fno-strict-aliasing
+CC       := ppc-amigaos-gcc
+CFLAGS   := $(OPTIONS) $(DEBUG) $(DEBUGSYM) $(OPTIMIZE)
+LIBS     := 
+
+REMOVE  := rm -f
+MAKEDIR := mkdir -p
+
+OBJS = $(COMMON_OBJS) $(OS4_OBJS)
+
+all : $(TARGET)
+
+$(TARGET): $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
+	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
+	@$(STRIP)
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) $(INCLUDES) $(WARNINGS) -o $@
+
+.PHONY depend: Makefile.dep
+Makefile.dep : $(OBJS:.o=.c)
+	@$(CC) -MM $(CFLAGS) $(INCLUDES) $(OBJS:.o=.c) >Makefile.dep
+
+.PHONY clean:
+clean:
+	@$(REMOVE) *.o init/*.o
+
+.PHONY cleanall:
+cleanall : clean
+	@$(REMOVE) $(TARGET) $(TARGET).map $(TARGET).s
+

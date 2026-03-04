@@ -1,0 +1,70 @@
+## version $VER: dopuslib.catalog 56.0 (08.07.97) © Marcin Orîowski <carlos@wfmh.man.szczecin.p
+## codeset 5
+## language polski
+;
+MSG_OK
+Ok
+; OK
+;
+MSG_SELECT_FILE
+Wybierz plik
+; Select File
+;
+MSG_SELECT_DIRECTORY
+Wybierz katalog
+; Select Directory
+;
+MSG_SELECT_FONT
+Wybierz czcionkë
+; Select Font
+;
+MSG_FONT_DRAWMODE
+Tryb:
+; Mode:
+;
+MSG_FONT_TEXT
+Tekst
+; Text
+;
+MSG_FONT_FIELD_TEXT
+Tekst+Tîo
+; Text+Field
+;
+MSG_SIZE_FIT
+9999%%
+; 9999%%
+;
+MSG_SIZE
+%ld%%
+; %ld%%
+;
+MSG_ABORT
+_Przerwij
+; Abort
+;
+MSG_FILE_FIT
+9999 z 9999
+; 9999 of 9999
+;
+MSG_FILE
+%ld z %ld
+; %ld of %ld
+;
+MSG_DIRECTORY_OPUS_REQUEST
+Directory Opus
+; Directory Opus Request
+;
+MSG_UNABLE_TO_OPEN_TOOL
+Nie mogë uruchomiê programu "%s"
+; Unable to open your tool '%s'
+;
+MSG_SICK_OF_WAITING
+Program "%s"\n\
+jeszcze nie skoïczyî pracy.\n\
+Czy mam dîuûej poczekaê?
+; Opus is sick of waiting for '%s' to return.\nWait some more?
+;
+MSG_WAIT_CANCEL
+_Tak|_Nie
+; Wait|Cancel
+;

@@ -1,0 +1,140 @@
+## version $VER: format.catalog 56.0 (08.07.97) © Marcin Orîowski <carlos@wfmh.man.szczecin.pl>
+## codeset 5
+## language polski
+;
+MSG_FORMAT_TITLE
+Formatowanie
+; Format
+;
+MSG_FORMAT_FORMAT
+_Formatuj
+; _Format
+;
+MSG_FORMAT_QUICK_FORMAT
+Form. _szybko
+; _Quick Format
+;
+MSG_FORMAT_CANCEL
+Ponie_chaj
+; _Cancel
+;
+MSG_FORMAT_NAME
+_Nazwa
+; _Name
+;
+MSG_FORMAT_FFS
+F_ast File System
+; F_ast File System
+;
+MSG_FORMAT_INTERNATIONAL
+_Tryb miëdzynarodowy
+; _International Mode
+;
+MSG_FORMAT_CACHING
+_Buforowanie katalogu
+; _Directory Caching
+;
+MSG_FORMAT_TRASHCAN
+_Zaîóû ômietnik
+; _Put Trashcan
+;
+MSG_FORMAT_INSTALL
+_Dysk startowy
+; _Make Bootable
+;
+MSG_FORMAT_VERIFY
+_Weryfikacja
+; _Verify
+;
+MSG_FORMAT_DEFAULT_NAME
+Pusty
+; Empty
+;
+MSG_FORMAT_STATUS
+%ld ôcieûek, %ld bajtów/ôcieûkë, %s
+; %ld tracks, %ld bytes/trk, %s
+;
+MSG_OPENING_DEVICE
+Otwieram urzâdzenie...
+; Opening device...
+;
+MSG_CHECKING_DISK
+Sprawdzam dysk...
+; Checking disk...
+;
+MSG_CANT_OPEN_DEVICE
+Nie mogë otworzyê urzâdzenia!
+; Unable to open device!
+;
+MSG_NO_DISK_PRESENT
+Nie ma dysku w napëdzie!
+; No disk present in drive!
+;
+MSG_DISK_WRITE_PROTECTED
+Dysk jest zabezpieczony przed zapisem!
+; Disk is write-protected!
+;
+MSG_RETRY_CANCEL
+_Powtórz|Ponie_chaj
+; Retry|Cancel
+;
+MSG_PROCEED_CANCEL
+_Kontynuuj|Ponie_chaj
+; Proceed|Cancel
+;
+MSG_DISK_NOT_BLANK
+Dysk w napëdzie %s nie jest pusty!\n\
+Wolumen "%s" zawiera %s.\n\
+Wszystkie dane zostanâ skasowane!\n\
+Na pewno chcesz kontynuowaê?
+; Disk in drive %s is not blank!\nVolume '%s' contains %s.\n\
+; All data will be erased.\nChoose Proceed to continue.
+;
+MSG_ABORTED
+Przerwane
+; Aborted.
+;
+MSG_FORMAT_INITIALISING
+Inicjalizujë dysk...
+; Initialising disk...
+;
+MSG_FORMAT_FORMATTING
+Formatujë...
+; Formatting...
+;
+MSG_FORMAT_FORMATERROR
+Format error on track %ld.
+; Format error on track %ld.
+;
+MSG_FORMAT_VERIFYERROR
+Verify error on track %ld.
+; Verify error on track %ld.
+;
+MSG_FORMAT_SUCCESSFUL
+Format successful!
+; Format successful!
+;
+MSG_FORMAT_FAILED
+Format failed.
+; Format failed.
+;
+MSG_FORMAT_SETTING_UP
+Setting up...
+; Setting up...
+;
+MSG_FORMAT_CLEANING_UP
+Cleaning up...
+; Cleaning up...
+;
+MSG_FORMAT_MAKING_TRASH
+Making Trashcan...
+; Making Trashcan...
+;
+MSG_INSTALLING_DISK
+Installing Bootblock...
+; Installing Bootblock...
+;
+MSG_FORMAT_DESC
+Format disks
+; Format disks
+;

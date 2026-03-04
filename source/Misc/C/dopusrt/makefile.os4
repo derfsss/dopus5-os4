@@ -1,0 +1,53 @@
+
+SHELL:= sh
+NEWDATE  := $(shell date +%d.%m.%Y)
+
+NAME := DOpusRT5
+DESTDIR  := ../../../bin.os4
+TARGET   := $(DESTDIR)/$(NAME)
+
+# Enter debug=no on "Make" command line to disable debuging.
+ifeq ($(debug), no)
+DEBUG := 
+STRIP := ppc-amigaos-strip -R=.comment $(TARGET)
+else
+DEBUG := -DDEBUG
+STRIP := 
+endif
+
+OPTIMIZE := -O2
+#C_LIB :=  -mcrt=clib2
+C_LIB :=  -mcrt=newlib
+DEBUGSYM := -gstabs 
+OPTIONS  := $(C_LIB) -D__USE_INLINE__ -D__USE_OLD_TIMEVAL__ -D__OBSOLETE_MEMHANDLER_FLAGS__  -D__USE_BASETYPE__ -DUSE_OLD_ANCHORPATH -DCOMPDATE=$(NEWDATE)
+INCLUDES := -I../../../Include
+LDFLAGS  := $(C_LIB)
+WARNINGS := -Wall
+CC       := ppc-amigaos-gcc
+CFLAGS   := $(OPTIONS) $(DEBUG) $(DEBUGSYM) $(OPTIMIZE)
+LIBS     := -lauto
+
+REMOVE = rm -f
+MAKEDIR := mkdir -p
+
+OBJS = dopusrt.o
+
+all : $(TARGET)
+
+$(TARGET): $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
+	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
+	@$(STRIP)
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) $(INCLUDES) $(WARNINGS) -o $@
+
+.PHONY clean:
+clean:
+	@$(REMOVE) *.o
+
+.PHONY cleanall:
+cleanall : clean
+	@$(REMOVE) $(TARGET) $(TARGET).map $(TARGET).s
+

@@ -1,0 +1,68 @@
+## version $VER: play.catalog 56.0 (08.07.97) © Marcin Orîowski <carlos@wfmh.man.szczecin.pl>
+## codeset 5
+## language polski
+;
+MSG_NEXT
+_Nastëpny
+; _Next
+;
+MSG_ABORT
+P_rzerwij
+; _Abort
+;
+MSG_PLAY_TITLE
+Odtwórz
+; Play
+;
+MSG_FILENAME
+Plik:
+; File:
+;
+MSG_LENGTH
+Dîugoôê:
+; Length:
+;
+MSG_TYPE
+Typ:
+; Type:
+;
+MSG_TYPE_STEREO
+Stereo
+; Stereo
+;
+MSG_TYPE_MONO
+Mono
+; Mono
+;
+MSG_TYPE_RAW
+Raw
+; Raw
+;
+MSG_STATUS
+Stan:
+; Status:
+;
+MSG_STATUS_LOADING
+Wczytujë plik...
+; Reading file...
+;
+MSG_STATUS_DECOMPRESSING
+Dekompresujë...
+; Decompressing...
+;
+MSG_STATUS_PLAYING
+Odtwarzam dúwiëk...
+; Playing sound...
+;
+MSG_PLAY_DESC
+Odtwarza pliki dúwiëkowe
+; Play sound files
+;
+MSG_PLAY_NEXT
+Nastëpny
+; Next
+;
+MSG_PLAY_ABORT
+Przerwij
+; Abort
+;

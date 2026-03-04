@@ -1,0 +1,64 @@
+include makefile.objs
+
+SHELL:= sh
+NEWDATE  := $(shell date +%d.%m.%Y)
+
+# Enter debug=no on "Make" command line to disable debug output.
+ifeq ($(debug), no)
+DEBUG := 
+DEBUGSYM := 
+else
+DEBUG := -DDEBUG
+DEBUGSYM := -gstabs
+endif
+
+# TODO: add sanity checks
+ifdef arch
+ARCH := $(arch)
+else
+ARCH := $(shell uname -m)
+endif
+
+NAME     := dopus5.library
+DESTDIR  := ../bin.$(ARCH)-aros
+TARGET   := $(DESTDIR)/$(NAME)
+OPTIMIZE := -O2
+OPTIONS  := -DLIBRARIES_DOPUS5_H -DCLIB_DOPUS5_PROTOS_H -DCOMPDATE=$(NEWDATE) -DUSE_64BIT -DARCH=$(ARCH)
+INCLUDES := -I../ -I../Include
+LDFLAGS  := -nostartfiles -Wl,-Map=$(TARGET).map
+WARNINGS := -Wall -Wno-pointer-sign -fno-strict-aliasing -Werror-implicit-function-declaration
+CC       := $(ARCH)-aros-gcc
+CFLAGS   := $(OPTIONS) $(DEBUG) $(DEBUGSYM) $(OPTIMIZE)
+LIBS     := 
+
+REMOVE = rm -f
+MAKEDIR := mkdir -p
+
+OBJS = $(COMMON_OBJS)
+
+all : $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(MAKEDIR) $(DESTDIR)
+	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) $(INCLUDES) $(WARNINGS) -o $@
+
+.PHONY depend: Makefile.dep
+Makefile.dep : $(OBJS:.o=.c)
+	@$(CC) -MM $(CFLAGS) $(INCLUDES) $(OBJS:.o=.c) >Makefile.dep
+
+.PHONY clean:
+clean:
+	@$(REMOVE) *.o
+#	@$(REMOVE) Makefile.dep
+
+.PHONY cleanall:
+cleanall : clean
+	@$(REMOVE) $(TARGET) $(TARGET).map $(TARGET).s
+
+#ifneq ($(MAKECMDGOALS),clean)
+#-include Makefile.dep
+#endif

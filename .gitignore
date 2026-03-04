@@ -1,0 +1,19 @@
+# SVN metadata (original SourceForge checkout)
+.svn/
+
+# Build artifacts
+source/bin.os4/
+source/bin.os3/
+source/bin.mos/
+source/Program/*.o
+source/Library/*.o
+source/Modules/*/*.o
+source/Misc/*/*.o
+*.o
+
+# Release archives
+dest/
+releases/
+
+# Temporary build directories
+source/Dopus5/
