@@ -1,6 +1,8 @@
-# Directory Opus 5 — AmigaOS 4 Fork
+# Directory Opus 5.93 — AmigaOS 4 Fork
 
 A working AmigaOS 4 build of Directory Opus 5, based on the open-source release from the [DOpus5 All Amigas](https://sourceforge.net/projects/dopus5allamigas/) SourceForge project.
+
+**Current version:** 5.93 [OS4] (Program 5.93, Library 73.1, Commands 65.0)
 
 ## Origin
 
@@ -74,8 +76,8 @@ docker run --rm -v ...:/project -w /project/source \
     cp bin.os4/viewfont Dopus5/C/
     cp ../documents/*.guide Dopus5/Help/
     cp ../documents/*.pdf Dopus5/Documents/
-    cp ../archive/basedata.lha ../releases/Dopus5_92_os4.lha
-    lha ao5q ../releases/Dopus5_92_os4.lha Dopus5
+    cp ../archive/basedata.lha ../releases/Dopus5_93_os4.lha
+    lha ao5q ../releases/Dopus5_93_os4.lha Dopus5
     rm -rf Dopus5
   '
 ```
