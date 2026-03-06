@@ -17,3 +17,4 @@ releases/
 
 # Temporary build directories
 source/Dopus5/
+temp/

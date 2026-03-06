@@ -628,6 +628,17 @@ void clock_show_memory(struct RastPort *rp,long msg,long clock_x,char *error)
 	// Update memory string
 	else
 	{
+#ifdef __amigaos4__
+		// On OS4, chip/fast split is meaningless — show total free as smart KB/MB
+		{
+			unsigned long freemem=AvailMem(MEMF_ANY);
+			char membuf[20];
+			char sep=(environment->env->settings.date_flags&DATE_1000SEP)?GUI->decimal_sep:0;
+
+			BytesToString(freemem,membuf,1,sep);
+			lsprintf(GUI->screen_title,"%s  %s free",dopus_name,membuf);
+		}
+#else
 		// Thousands separator?
 		if (environment->env->settings.date_flags&DATE_1000SEP && GUI->flags&GUIF_LOCALE_OK)
 			++msg;
@@ -641,6 +652,7 @@ void clock_show_memory(struct RastPort *rp,long msg,long clock_x,char *error)
 			dopus_name,
 			chipmem,
 			AvailMem(MEMF_ANY)-chipmem);
+#endif
 	}
 
 #ifndef USE_SCREENTITLE

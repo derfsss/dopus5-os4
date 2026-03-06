@@ -173,12 +173,19 @@ short LIBFUNC L_DoSimpleRequest(
 							if (simple->check_ptr) *simple->check_ptr=copy_msg.Code;
 						}
 
+						// Escape on a string gadget? Close requester
+						else
+						if (gadgetid==GAD_STRING_ID && copy_msg.Code==0x45)
+						{
+							gadgetid=0;
+							break_flag=1;
+						}
+
 						// Tab on a string gadget?
 						else
 						if (gadgetid==GAD_STRING2_ID ||
 							(gadgetid==GAD_STRING_ID &&
 								(copy_msg.Code==0x9 ||
-								copy_msg.Code==0x45 ||
 								copy_msg.Qualifier&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT))))
 							continue;
 

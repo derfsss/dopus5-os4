@@ -2,7 +2,7 @@
 
 A working AmigaOS 4 build of Directory Opus 5, based on the open-source release from the [DOpus5 All Amigas](https://sourceforge.net/projects/dopus5allamigas/) SourceForge project.
 
-**Current version:** 5.93 [OS4] (Program 5.93, Library 73.1, Commands 65.0)
+**Current version:** 5.93beta2 [OS4] (Program 5.93, Library 73.1, Commands 65.0)
 
 ## Origin
 
@@ -151,6 +151,28 @@ The following changes were made on top of the SourceForge codebase to fix compil
 - Raised the filename length clamp in `environment.c` and the config UI bounds in `config_environment.c` from 107 to `MAX_FILENAME_LEN`.
 - In the OS4 directory reading path (`function_readdir.c`), bypassed the `FileInfoBlock` name truncation by calling `create_file_entry()` directly with `exdata->Name` instead of going through `create_file_entry_fib()` which reads the truncated 107-char FIB field.
 - Replaced 7 hardcoded `108` buffer size literals across `function_filechange.c`, `backdrop_leftout.c`, and `ftp_lister.c` with `sizeof(fib->fib_FileName)` for self-documentation.
+
+### Enhancements (5.93beta2)
+
+#### Font Size Limit Removed (SourceForge #33)
+- **File:** `Modules/configopus/config_environment.c`
+- The font requester in Settings > Environment was capped at 24pt, insufficient for 4K monitors. Added `ASLFO_MaxHeight, 96` to both font requesters (lister font and icon font), allowing selection of fonts up to 96pt.
+
+#### Environment Config Default Selection (SourceForge #4)
+- **File:** `Modules/configopus/config_environment.c`
+- When opening Settings > Environment, the item list now selects the first entry (Backgrounds) by default instead of showing a blank grey area.
+
+#### Escape Closes Requesters with Active String Gadgets (SourceForge #14)
+- **File:** `Library/simplerequest.c`
+- Pressing Escape while a string gadget was active (e.g. in the rename dialog) had no effect — the key was consumed by the string gadget and ignored. Now Escape properly closes the requester as a cancel action.
+
+#### Free Memory Display in KB/MB on OS4 (SourceForge #29)
+- **File:** `Program/clock_task.c`
+- The screen title memory counter showed raw byte counts with a meaningless chip/fast split on OS4 (where chip memory does not exist). On OS4 builds, the display now shows total free memory formatted as KB/MB/GB (e.g. "512M free") using the existing `BytesToString()` smart formatter.
+
+#### Full Path in Lister Title (SourceForge #21)
+- **Files:** `Include/libraries/dopus5.h`, `Program/lister_title.c`, `Modules/configopus/config_environment.c`, `Modules/configopus/config_environment_data.c`, `Modules/configopus/enums.h`, `Modules/configopus/string_data.h`, `Modules/configopus/configopus.cd`
+- New option "Show Full Path in Lister Title" in Settings > Environment > Lister Options. When enabled, the lister window title shows the complete path (e.g. `Work:Projects/MyApp/src/`) instead of the default abbreviated format (`Work:..src`). Uses the new `LISTEROPTF_FULL_PATH` flag (bit 12 of `lister_options`).
 
 ### Modernisation (BltBitMapTags)
 

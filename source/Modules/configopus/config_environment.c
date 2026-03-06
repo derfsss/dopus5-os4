@@ -118,9 +118,11 @@ unsigned long LIBFUNC L_Config_Environment(
 	data->font_req=AllocAslRequestTags(ASL_FontRequest,
 		ASLFO_TitleText,GetString(locale,MSG_LISTER_SELECT_FONT),
 		ASLFO_Flags,FOF_PRIVATEIDCMP|FOF_FIXEDWIDTHONLY,
+		ASLFO_MaxHeight,96,
 		TAG_END);
 	data->icon_font_req=AllocAslRequestTags(ASL_FontRequest,
 		(screen)?ASLFO_InitialHeight:TAG_IGNORE,(screen)?(screen->Height>>3)+(screen->Height>>1):0,
+		ASLFO_MaxHeight,96,
 		TAG_END);
 
 	// Build screen mode list
@@ -1748,14 +1750,23 @@ BOOL _config_env_open(config_env_data *data,struct Screen *screen)
 	// Initialise colour information
 	_config_env_colours_init(data);
 
+	// If no option selected, default to first entry
+	if (data->option==-1 && !data->option_node)
+	{
+		data->option_node=Att_FindNode(data->options,0);
+	}
+
 	// Got an option?
-	if (data->option!=-1 && data->option_node)
+	if (data->option_node)
 	{
 		// Select option in list
 		SetGadgetValue(
 			data->objlist,
 			GAD_ENVIRONMENT_ITEM_LISTER,
 			Att_FindNodeNumber(data->options,data->option_node));
+
+		// Set the option number
+		data->option=_environment_options[data->option_node->data].num;
 
 		// Create option list
 		data->option_list=AddObjectList(data->window,_environment_options[data->option_node->data].objects);
@@ -2067,6 +2078,12 @@ void _config_env_set(config_env_data *data,short option)
 				data->option_list,
 				GAD_ENVIRONMENT_VOSTY_ZOOM,
 				data->config->lister_options&LISTEROPTF_VOSTY_ZOOM);
+
+			// Full path in lister title
+			SetGadgetValue(
+				data->option_list,
+				GAD_ENVIRONMENT_FULL_PATH,
+				data->config->lister_options&LISTEROPTF_FULL_PATH);
 
 			// Lister editing
 			SetGadgetValue(
@@ -2581,6 +2598,11 @@ void _config_env_store(config_env_data *data,short option)
 			if (GetGadgetValue(data->option_list,GAD_ENVIRONMENT_VOSTY_ZOOM))
 				data->config->lister_options|=LISTEROPTF_VOSTY_ZOOM;
 			else data->config->lister_options&=~LISTEROPTF_VOSTY_ZOOM;
+
+			// Full path in lister title
+			if (GetGadgetValue(data->option_list,GAD_ENVIRONMENT_FULL_PATH))
+				data->config->lister_options|=LISTEROPTF_FULL_PATH;
+			else data->config->lister_options&=~LISTEROPTF_FULL_PATH;
 
 			// Lister editing
 			option=GetGadgetValue(data->option_list,GAD_ENVIRONMENT_LISTER_EDITING);
