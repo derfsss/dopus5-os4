@@ -990,6 +990,15 @@ struct Gadget *LIBFUNC L_FindKeyEquivalent(
 								}
 							}
 						}
+
+						// Escape rawkey
+						else
+						if (key==0x45)
+						{
+							// Look for cancel button
+							if (use_object->flags&BUTTONFLAG_CANCEL_BUTTON)
+								gadget=GADGET(use_object);
+						}
 					}
 
 					// Escape/lcommand b?

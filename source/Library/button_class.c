@@ -569,7 +569,23 @@ ULONG LIBFUNC button_dispatch(
 
 			// Let string gadget handle itself
 			if (data->flags&BUTTONF_STRING)
+			{
+				#ifdef __amigaos4__
+				// OS4 strgclass swallows Escape — intercept before super
+				{
+					struct gpInput *input=(struct gpInput *)msg;
+					if (input->gpi_IEvent &&
+						input->gpi_IEvent->ie_Class==IECLASS_RAWKEY &&
+						input->gpi_IEvent->ie_Code==0x45)
+					{
+						*input->gpi_Termination=0x45;
+						retval=GMR_NOREUSE|GMR_VERIFY;
+						break;
+					}
+				}
+				#endif
 				retval=DoSuperMethodA(cl,obj,msg);
+			}
 
 			// Button
 			else

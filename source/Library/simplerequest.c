@@ -252,6 +252,18 @@ short LIBFUNC L_DoSimpleRequest(
 							break_flag=1;
 						}
 					}
+
+					// Raw key press
+					else
+					if (copy_msg.Class==IDCMP_RAWKEY)
+					{
+						// Escape
+						if (copy_msg.Code==0x45)
+						{
+							gadgetid=0;
+							break_flag=1;
+						}
+					}
 				}
 			}
 

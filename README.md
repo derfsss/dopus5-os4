@@ -163,8 +163,8 @@ The following changes were made on top of the SourceForge codebase to fix compil
 - When opening Settings > Environment, the item list now selects the first entry (Backgrounds) by default instead of showing a blank grey area.
 
 #### Escape Closes Requesters with Active String Gadgets (SourceForge #14)
-- **File:** `Library/simplerequest.c`
-- Pressing Escape while a string gadget was active (e.g. in the rename dialog) had no effect — the key was consumed by the string gadget and ignored. Now Escape properly closes the requester as a cancel action.
+- **Files:** `Library/button_class.c`, `Library/simplerequest.c`, `Library/layout_support.c`
+- Pressing Escape while a string gadget was active (e.g. in the rename dialog) had no effect. On OS4, the BOOPSI `strgclass` completely swallows the Escape key — the `STRINGA_EditHook` never fires and no RAWKEY reaches the IDCMP port. Fixed by intercepting Escape (raw key 0x45) in the `dopusstrgclass` `GM_HANDLEINPUT` dispatcher before passing to the superclass, returning `GMR_NOREUSE|GMR_VERIFY` to generate a GADGETUP with Code=0x45. Also added RAWKEY 0x45 fallback handlers in `simplerequest.c` and `L_FindKeyEquivalent` for completeness.
 
 #### Free Memory Display in KB/MB on OS4 (SourceForge #29)
 - **File:** `Program/clock_task.c`
@@ -173,6 +173,11 @@ The following changes were made on top of the SourceForge codebase to fix compil
 #### Full Path in Lister Title (SourceForge #21)
 - **Files:** `Include/libraries/dopus5.h`, `Program/lister_title.c`, `Modules/configopus/config_environment.c`, `Modules/configopus/config_environment_data.c`, `Modules/configopus/enums.h`, `Modules/configopus/string_data.h`, `Modules/configopus/configopus.cd`
 - New option "Show Full Path in Lister Title" in Settings > Environment > Lister Options. When enabled, the lister window title shows the complete path (e.g. `Work:Projects/MyApp/src/`) instead of the default abbreviated format (`Work:..src`). Uses the new `LISTEROPTF_FULL_PATH` flag (bit 12 of `lister_options`).
+- Fixed missing `CatCompBlock` entry for `MSG_ENVIRONMENT_FULL_PATH` string — opening Lister Options crashed with DSI in `L_GetString` because the packed string table walker ran off the end.
+
+#### Filetype Editor Crash Fix
+- **File:** `Modules/filetype/filetype.c`
+- The filetype finder/editor processes (`finder_editor_proc_init`, `finder_creator_proc_init`, `creator_editor_proc_init`) crashed with DSI on startup. The OS4 function signatures had an extra `REG(a2, int skip)` parameter that shifted the `data` argument to the third position, but `CallStartupCode` only passes two arguments (`ipc`, `data`). The `data` pointer received garbage/NULL, crashing at the first dereference. Removed the spurious `skip` parameter to match the IPC calling convention (same fix already applied to configopus and ftp modules).
 
 ### Modernisation (BltBitMapTags)
 

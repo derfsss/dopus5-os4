@@ -627,7 +627,7 @@ return ok;
 
 // Init code for process
 #ifdef __amigaos4__
-ULONG SAVEDS ASM finder_creator_proc_init( REG(a0, IPCData *ipc), REG(a2, int skip),	REG(a1, finder_data *data ))
+ULONG SAVEDS ASM finder_creator_proc_init( REG(a0, IPCData *ipc), REG(a1, finder_data *data ))
 #else
 IPC_StartupCode(finder_creator_proc_init, finder_data *, data)
 #endif
@@ -742,7 +742,6 @@ return ok;
 #if defined(__amigaos4__)
 ULONG SAVEDS ASM finder_editor_proc_init(
 	REG(a0, IPCData *ipc),
-	REG(a2, int skip),
 	REG(a1, finder_data *data ))
 #else
 IPC_StartupCode(finder_editor_proc_init, finder_data *, data)
@@ -2284,7 +2283,7 @@ return ok;
 
 // Init code for process
 #ifdef __amigaos4__
-ULONG SAVEDS ASM creator_editor_proc_init(REG(a0, IPCData *ipc), REG(a2, int skip), REG(a1, creator_data *data ))
+ULONG SAVEDS ASM creator_editor_proc_init(REG(a0, IPCData *ipc), REG(a1, creator_data *data ))
 #else
 IPC_StartupCode(creator_editor_proc_init, creator_data *, data)
 #endif
