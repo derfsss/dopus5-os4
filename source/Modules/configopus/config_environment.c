@@ -1324,7 +1324,9 @@ unsigned long LIBFUNC L_Config_Environment(
 
 		// Has the number of user colours changed
 		if (data->config->palette_count!=env->env->palette_count)
+		{
 			change_flags[0]|=CONFIG_CHANGE_PALETTE;
+		}
 
 		// Lister font changed?
 		if (stricmp(data->config->font_name[FONT_DIRS],env->env->font_name[FONT_DIRS])!=0 ||
@@ -1366,24 +1368,22 @@ unsigned long LIBFUNC L_Config_Environment(
 			(env->env->lister_options&LISTEROPTF_TITLES)) change_flags[0]|=CONFIG_CHANGE_LISTER_TITLES;
 
 		// Background pictures
-		if (((data->config->display_options&DISPOPTF_NO_BACKDROP)!=(env->env->display_options&DISPOPTF_NO_BACKDROP)) ||
-			((data->config->display_options&DISPOPTF_USE_WBPATTERN)!=(env->env->display_options&DISPOPTF_USE_WBPATTERN)) ||
+		if ((data->config->display_options&DISPOPTF_NO_BACKDROP)!=(env->env->display_options&DISPOPTF_NO_BACKDROP) ||
+			(data->config->display_options&DISPOPTF_USE_WBPATTERN)!=(env->env->display_options&DISPOPTF_USE_WBPATTERN) ||
 			(!(data->config->display_options&DISPOPTF_NO_BACKDROP) &&
-				data->config->display_options&DISPOPTF_USE_WBPATTERN &&
-				stricmp(data->config->backdrop_prefs,env->env->backdrop_prefs)!=0) ||
+			(data->config->display_options&DISPOPTF_USE_WBPATTERN) &&
+			stricmp(data->config->backdrop_prefs,env->env->backdrop_prefs)!=0) ||
 			(!(data->config->display_options&(DISPOPTF_NO_BACKDROP|DISPOPTF_USE_WBPATTERN)) &&
-				(stricmp(data->config->env_BackgroundPic[0],env->env->env_BackgroundPic[0])!=0 ||
-				 stricmp(data->config->env_BackgroundPic[1],env->env->env_BackgroundPic[1])!=0 ||
-				 stricmp(data->config->env_BackgroundPic[2],env->env->env_BackgroundPic[2])!=0 ||
-				 data->config->env_BackgroundFlags[0]!=env->env->env_BackgroundFlags[0] ||
-				 data->config->env_BackgroundFlags[1]!=env->env->env_BackgroundFlags[1] ||
-				 data->config->env_BackgroundFlags[2]!=env->env->env_BackgroundFlags[2] ||
-				 (data->config->env_BackgroundFlags[0]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[0]!=env->env->env_BackgroundBorderColour[0]) ||
-				 (data->config->env_BackgroundFlags[1]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[1]!=env->env->env_BackgroundBorderColour[1]) ||
-				 (data->config->env_BackgroundFlags[2]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[2]!=env->env->env_BackgroundBorderColour[2]))))
-		{
+			(stricmp(data->config->env_BackgroundPic[0],env->env->env_BackgroundPic[0])!=0 ||
+			stricmp(data->config->env_BackgroundPic[1],env->env->env_BackgroundPic[1])!=0 ||
+			stricmp(data->config->env_BackgroundPic[2],env->env->env_BackgroundPic[2])!=0 ||
+			data->config->env_BackgroundFlags[0]!=env->env->env_BackgroundFlags[0] ||
+			data->config->env_BackgroundFlags[1]!=env->env->env_BackgroundFlags[1] ||
+			data->config->env_BackgroundFlags[2]!=env->env->env_BackgroundFlags[2] ||
+			(data->config->env_BackgroundFlags[0]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[0]!=env->env->env_BackgroundBorderColour[0]) ||
+			(data->config->env_BackgroundFlags[1]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[1]!=env->env->env_BackgroundBorderColour[1]) ||
+			(data->config->env_BackgroundFlags[2]&ENVBF_USE_COLOUR && data->config->env_BackgroundBorderColour[2]!=env->env->env_BackgroundBorderColour[2]))))
 			change_flags[0]|=CONFIG_CHANGE_BACKDROP;
-		}
 
 		// Changed AppIcons status?
 		else
@@ -1771,7 +1771,7 @@ BOOL _config_env_open(config_env_data *data,struct Screen *screen)
 		// Create option list
 		data->option_list=AddObjectList(data->window,_environment_options[data->option_node->data].objects);
 
-#ifdef FUNKOFF
+#ifndef FUNKOFF
 		// Initialise gadgets
 		_config_env_set(data,data->option);
 #endif
@@ -2506,7 +2506,6 @@ void _config_env_store(config_env_data *data,short option)
 				data->config->display_options|=DISPOPTF_NO_BACKDROP;
 			if (GetGadgetValue(data->option_list,GAD_ENVIRONMENT_PICTURE_USE_WBPATTERN))
 				data->config->display_options|=DISPOPTF_USE_WBPATTERN;
-
 			// Get prefs fields
 			stccpy(
 				data->config->backdrop_prefs,

@@ -2,7 +2,7 @@
 
 A working AmigaOS 4 build of Directory Opus 5, based on the open-source release from the [DOpus5 All Amigas](https://sourceforge.net/projects/dopus5allamigas/) SourceForge project.
 
-**Current version:** 5.93beta2 [OS4] (Program 5.93, Library 73.1, Commands 65.0)
+**Current version:** 5.93beta3 [OS4] (Program 5.93, Library 73.2, Commands 65.0)
 
 ## Origin
 
@@ -139,6 +139,14 @@ The following changes were made on top of the SourceForge codebase to fix compil
 - Fixed checkmark rendering (`IM_CHECK`/`IM_CROSS`) by clearing the background rectangle before drawing lines.
 - Fixed listview title rendering by switching from JAM1 to JAM2 with proper background pen.
 - Fixed config preview instruction text by switching from JAM1 to JAM2 with proper background pen.
+
+#### Gadget Label Progressive Bold Fix (GitHub #1)
+- **File:** `Library/button_class.c`
+- Gadget text labels (checkbox labels, button text with hotkey underscores) still became progressively bolder with anti-aliased fonts despite the earlier SourceForge #6 fix. The earlier fix addressed checkmark glyphs (`image_class.c`), listview titles, and config preview text, but missed the gadget text rendering path in `button_class.c`. The `Text()` call used JAM1 draw mode, which only writes foreground pixels — anti-aliased edge pixels accumulated on each redraw. Fixed by switching to JAM2 with the correct background pen before drawing gadget labels, and restoring JAM1 afterward. This matches the JAM2 fix pattern already applied to `listview_class.c` and `config_environment_output.c`.
+
+#### Settings Save Backdrop Disappearance (GitHub #2)
+- **File:** `Modules/configopus/config_environment.c`
+- Opening Settings > Environment and clicking Save/Use (even with no changes) caused the desktop background to disappear. The "Environment Config Default Selection" enhancement (SourceForge #4) auto-selects the first item (Backgrounds) when the editor opens, but the `_config_env_set()` call that populates the page's gadgets with config values was inside `#ifdef FUNKOFF` — dead code that is never compiled. The normal item-select path correctly uses `#ifndef FUNKOFF`. On close, `_config_env_store()` read the unpopulated gadgets (all returning 0), corrupting `display_options`: `DISPOPTF_NO_BACKDROP` was falsely set and `DISPOPTF_USE_WBPATTERN` was cleared. This triggered a spurious `CONFIG_CHANGE_BACKDROP` reset with `NO_BACKDROP=1`, removing the background. Fixed by changing `#ifdef FUNKOFF` to `#ifndef FUNKOFF` to match the normal code path.
 
 #### Defensive Lock Validation for USB/FAT32 (SourceForge #63 mitigation)
 - **File:** `Program/function_runprog.c`

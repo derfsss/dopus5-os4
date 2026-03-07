@@ -1,3 +1,18 @@
+5.93beta3 [OS4] by derfsss (2026-03-07)
+Fix progressive bold gadget labels with anti-aliased fonts (GitHub #1,
+reported by javierdlr). Text rendered in JAM1 draw mode accumulated
+semi-transparent AA edge pixels on each redraw. Switched gadget label
+rendering in button_class.c to JAM2 with correct background pen.
+
+Fix background disappearing when saving settings (GitHub #2). The
+SourceForge #4 enhancement that auto-selects the first config page
+had #ifdef FUNKOFF instead of #ifndef FUNKOFF, so the gadgets were
+never populated with config values. On close, _config_env_store read
+zeros from unpopulated gadgets, falsely setting DISPOPTF_NO_BACKDROP
+and triggering a spurious CONFIG_CHANGE_BACKDROP reset.
+
+Bumped library revision to 73.2.
+
 r[1080] by paraxenic
 Added Themes directory to basedata.lha so distribution archives will
 have a Themes directory.

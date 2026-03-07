@@ -1255,9 +1255,20 @@ void button_render(
 		old_style=rp->AlgoStyle;
 
 		// Set pen for text
+		// Use JAM2 draw mode to prevent progressive bolding with anti-aliased fonts:
+		// in JAM1, Text() only writes foreground pixels, so semi-transparent AA edges
+		// accumulate on each redraw, making text progressively bolder.
 		if (data->place==PLACETEXT_IN)
+		{
 			SetAPen(rp,pens[(gadget->Flags&GFLG_SELECTED)?FILLTEXTPEN:TEXTPEN]);
-		else SetAPen(rp,pens[TEXTPEN]);
+			SetBPen(rp,pens[(gadget->Flags&GFLG_SELECTED)?FILLPEN:BACKGROUNDPEN]);
+		}
+		else
+		{
+			SetAPen(rp,pens[TEXTPEN]);
+			SetBPen(rp,pens[BACKGROUNDPEN]);
+		}
+		SetDrMd(rp,JAM2);
 		if (data->font) SetFont(rp,data->font);
 		if (data->flags&BUTTONF_BOLD) SetSoftStyle(rp,FSF_BOLD,FSF_BOLD);
 		if (data->flags&BUTTONF_ITALICS) SetSoftStyle(rp,FSF_ITALIC,FSF_ITALIC);
@@ -1311,6 +1322,9 @@ void button_render(
 			Move(rp,x+pos,y+1);
 			Draw(rp,x+pos+len-1,y+1);
 		}
+
+		// Restore JAM1 draw mode
+		SetDrMd(rp,JAM1);
 
 		// Restore style
 		if (old_style!=rp->AlgoStyle)

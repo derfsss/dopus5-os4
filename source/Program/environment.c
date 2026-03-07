@@ -1155,7 +1155,10 @@ IPC_EntryCode(environment_proc)
 		IPC_Command(&main_ipc,MAINCMD_OPEN_DISPLAY,DSPOPENF_DESKTOP,0,0,(struct MsgPort *)-1);
 	}
 	else
-	if (change_flags[0] || change_flags[1]) send_main_reset_cmd(change_flags[0],change_flags[1],0);
+	if (change_flags[0] || change_flags[1])
+	{
+		send_main_reset_cmd(change_flags[0],change_flags[1],0);
+	}
 
 	// Free startup packet
 	FreeVec(packet);
